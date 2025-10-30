@@ -1,0 +1,21 @@
+#include <jni.h>
+#include <android/log.h>
+#include <opencv2/opencv.hpp>
+
+#define LOG_TAG "NeoEdgeVision"
+#define LOGI(...) __android_log_print(ANDROID_LOG_INFO, LOG_TAG, __VA_ARGS__)
+
+extern "C"
+JNIEXPORT void JNICALL
+Java_com_neo_edgevision_NativeBridge_processFrame(JNIEnv *env, jobject, jbyteArray frameData, jint width, jint height) {
+    LOGI("JNI bridge called. Frame size: %dx%d", width, height);
+
+    jbyte *data = env->GetByteArrayElements(frameData, nullptr);
+    cv::Mat yuv(height + height / 2, width, CV_8UC1, data);
+    cv::Mat bgr;
+    cv::cvtColor(yuv, bgr, cv::COLOR_YUV2BGR_NV21);
+    cv::GaussianBlur(bgr, bgr, cv::Size(5, 5), 0);
+    env->ReleaseByteArrayElements(frameData, data, 0);
+
+    LOGI("Frame processed successfully with OpenCV!");
+}
