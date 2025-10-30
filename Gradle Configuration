@@ -1,0 +1,31 @@
+plugins {
+    id("com.android.application")
+    kotlin("android")
+}
+
+android {
+    namespace = "com.neo.edgevision"
+    compileSdk = 34
+
+    defaultConfig {
+        applicationId = "com.neo.edgevision"
+        minSdk = 26
+        targetSdk = 34
+        versionCode = 1
+        versionName = "1.0"
+    }
+
+    externalNativeBuild {
+        cmake {
+            path = file("src/main/cpp/CMakeLists.txt")
+        }
+    }
+
+    buildFeatures {
+        prefab = true
+    }
+}
+
+dependencies {
+    implementation(files("C:/OpenCV-4.8.0-android-sdk/sdk/java/bin/opencv-480.jar"))
+}
