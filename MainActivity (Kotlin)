@@ -1,0 +1,27 @@
+package com.neo.edgevision
+
+import androidx.appcompat.app.AppCompatActivity
+import android.os.Bundle
+import android.util.Log
+
+class MainActivity : AppCompatActivity() {
+
+    companion object {
+        init {
+            System.loadLibrary("native-lib")
+            System.loadLibrary("opencv_java4")
+        }
+    }
+
+    private val nativeBridge = NativeBridge()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        val dummyFrame = ByteArray(640 * 480)
+        nativeBridge.processFrame(dummyFrame, 640, 480)
+
+        Log.i("NeoEdgeVision", "MainActivity initialized successfully")
+    }
+}
