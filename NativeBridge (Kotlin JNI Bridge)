@@ -1,0 +1,5 @@
+package com.neo.edgevision
+
+class NativeBridge {
+    external fun processFrame(frameData: ByteArray, width: Int, height: Int)
+}
